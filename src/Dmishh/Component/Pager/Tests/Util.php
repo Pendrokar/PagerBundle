@@ -1,6 +1,6 @@
 <?php
 
-namespace Dmishh\PagerBundle\Tests\Component\Pager;
+namespace Dmishh\Component\Pager\Tests;
 
 
 class Util

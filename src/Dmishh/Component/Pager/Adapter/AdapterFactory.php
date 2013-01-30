@@ -4,9 +4,9 @@
  * Date: 23.01.2013
  * Time: 16:44
  */
-namespace Dmishh\PagerBundle\Component\Pager\Adapter;
+namespace Dmishh\Component\Pager\Adapter;
 
-use Dmishh\PagerBundle\Component\Pager\Exception\Exception;
+use Dmishh\Component\Pager\Pager\Exception\Exception;
 
 class AdapterFactory
 {

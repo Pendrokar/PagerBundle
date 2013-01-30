@@ -1,9 +1,8 @@
 <?php
 
-namespace Dmishh\PagerBundle\Tests\Component\Pager;
+namespace Dmishh\Component\Pager\Tests;
 
-use Dmishh\PagerBundle\Component\Pager\Pager;
-
+use Dmishh\Component\Pager\Pager;
 
 class PagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -62,8 +61,8 @@ class PagerTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayAccess()
     {
-        $itemsCount = 50;
-        $itemsPerPage = 50;
+        $itemsCount = 15;
+        $itemsPerPage = 5;
         $items = Util::generateItems($itemsCount, 'index', 'value');
 
         $pager = new Pager(1, $itemsPerPage);
@@ -82,16 +81,19 @@ class PagerTest extends \PHPUnit_Framework_TestCase
 
     public function testIterator()
     {
-        $itemsCount = 50;
-        $itemsPerPage = 50;
+        $itemsCount = 15;
+        $itemsPerPage = 5;
         $items = Util::generateItems($itemsCount, 'index', 'value');
 
-        $pager = new Pager(1, $itemsPerPage);
+        $pager = new Pager(2, $itemsPerPage);
         $pager->setItems($items);
 
-        for ($i = 0; $i < $itemsPerPage; $i++) {
-            $this->assertTrue(isset($pager['index' . $i]), 'Checking pager index ' . $i);
-            $this->assertEquals($items['index' . $i], $pager['index' . $i]);
+        $pager->rewind();
+
+        while ($pager->valid()) {
+            $key = $pager->key();
+            $this->assertEquals($items[$key], $pager->current());
+            $pager->next();
         }
     }
 
@@ -105,5 +107,19 @@ class PagerTest extends \PHPUnit_Framework_TestCase
 
         $pager->setItems(Util::generateItems(20));
         $this->assertFalse($pager->isPageOutOfRange());
+    }
+
+    public function testHasToPaginate()
+    {
+        $pager = new Pager(1, 10);
+
+        $pager->setItemsCount(5);
+        $this->assertFalse($pager->hasToPaginate());
+
+        $pager->setItemsCount(10);
+        $this->assertFalse($pager->hasToPaginate());
+
+        $pager->setItemsCount(11);
+        $this->assertTrue($pager->hasToPaginate());
     }
 }

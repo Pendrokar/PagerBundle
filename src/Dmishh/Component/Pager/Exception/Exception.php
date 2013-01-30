@@ -1,6 +1,6 @@
 <?php
 
-namespace Dmishh\PagerBundle\Component\Pager\Exception;
+namespace Dmishh\Component\Pager\Pager\Exception;
 
 
 class Exception extends \Exception {

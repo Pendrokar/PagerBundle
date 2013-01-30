@@ -1,9 +1,9 @@
 <?php
 
-namespace Dmishh\PagerBundle\Component\Pager;
+namespace Dmishh\Component\Pager;
 
-use Dmishh\PagerBundle\Component\Pager\Adapter\AdapterFactory;
-use Dmishh\PagerBundle\Component\Pager\Adapter\PagerAdapterInterface;
+use Dmishh\Component\Pager\Adapter\AdapterFactory;
+use Dmishh\Component\Pager\Adapter\PagerAdapterInterface;
 
 /**
  * Pager
@@ -36,6 +36,11 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
     private $items;
 
     /**
+     * @var array Keys for items array. Used for preserving keys of items array
+     */
+    private $itemsKeys;
+
+    /**
      * @var int Cursor for iterating over items
      */
     private $cursor = 0;
@@ -45,8 +50,8 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
      *
      * @param int $currentPage
      * @param int $itemsPerPage
-     * @param mixed $dataSource
-     * @param array $options
+     * @param mixed $dataSource Data source for pagination
+     * @param array $options Options for adapter
      */
     public function __construct($currentPage = 1, $itemsPerPage = 10, $dataSource = null, array $options = array())
     {
@@ -137,14 +142,23 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
         return $this->getLimit() * ($this->currentPage - 1);
     }
 
+    /**
+     * Alias for getItemsPerPage()
+     *
+     * @return int Limit
+     */
     public function getLimit()
     {
-        return $this->itemsPerPage;
+        return $this->getItemsPerPage();
     }
 
+    /**
+     * @param array $items
+     */
     public function setItems(array $items)
     {
-        $this->items = $items;
+        $this->items = array_values($items);
+        $this->itemsKeys = array_keys($items);
     }
 
     /**
@@ -162,19 +176,15 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
     {
         if (!isset($this->items)) {
             if ($this->adapter) {
-                $this->items = array_values($this->adapter->getResults($this->getOffset(), $this->getLimit()));
+                $this->setItems($this->adapter->getResults($this->getOffset(), $this->getLimit()));
             }
         }
     }
 
     /**
-     * (PHP 5 &gt;= 5.1.0)<br/>
-     * Count elements of an object
+     * Total elements count
      * @link http://php.net/manual/en/countable.count.php
-     * @return int The custom count as an integer.
-     * </p>
-     * <p>
-     * The return value is cast to an integer.
+     * @return int
      */
     public function count()
     {
@@ -182,22 +192,20 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
      * Return the current element
      * @link http://php.net/manual/en/iterator.current.php
-     * @return mixed Can return any type.
+     * @return mixed
      */
     public function current()
     {
         $this->loadItems();
-        return $this->items[$this->cursor];
+        return $this->items[$this->itemsKeys[$this->cursor]];
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
      * Move forward to next element
      * @link http://php.net/manual/en/iterator.next.php
-     * @return void Any returned value is ignored.
+     * @return void
      */
     public function next()
     {
@@ -205,35 +213,31 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
      * Return the key of the current element
      * @link http://php.net/manual/en/iterator.key.php
-     * @return mixed scalar on success, or null on failure.
+     * @return mixed
      */
     public function key()
     {
         $this->loadItems();
-        $this->items[$this->cursor];
+        return $this->itemsKeys[$this->cursor];
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
      * Checks if current position is valid
      * @link http://php.net/manual/en/iterator.valid.php
-     * @return boolean The return value will be casted to boolean and then evaluated.
-     * Returns true on success or false on failure.
+     * @return boolean
      */
     public function valid()
     {
         $this->loadItems();
-        return isset($this->items[$this->cursor]);
+        return isset($this->items[$this->itemsKeys[$this->cursor]]);
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
      * Rewind the Iterator to the first element
      * @link http://php.net/manual/en/iterator.rewind.php
-     * @return void Any returned value is ignored.
+     * @return void
      */
     public function rewind()
     {
@@ -241,48 +245,34 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
      * Whether a offset exists
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
-     * @param mixed $offset <p>
-     * An offset to check for.
-     * </p>
-     * @return boolean true on success or false on failure.
-     * </p>
-     * <p>
-     * The return value will be casted to boolean if non-boolean was returned.
+     * @param mixed $offset
+     * @return boolean
      */
     public function offsetExists($offset)
     {
         $this->loadItems();
-        return isset($this->items[$offset]);
+        return in_array($offset, $this->itemsKeys);
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
      * Offset to retrieve
      * @link http://php.net/manual/en/arrayaccess.offsetget.php
-     * @param mixed $offset <p>
-     * The offset to retrieve.
-     * </p>
-     * @return mixed Can return all value types.
+     * @param mixed $offset
+     * @return mixed
      */
     public function offsetGet($offset)
     {
         $this->loadItems();
-        return $this->items[$offset];
+        return $this->items[array_search($offset, $this->itemsKeys)];
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
-     * Offset to set
+     * Pager is readonly - disabling items modifying
      * @link http://php.net/manual/en/arrayaccess.offsetset.php
-     * @param mixed $offset <p>
-     * The offset to assign the value to.
-     * </p>
-     * @param mixed $value <p>
-     * The value to set.
-     * </p>
+     * @param mixed $offset
+     * @param mixed $value
      * @return void
      */
     public function offsetSet($offset, $value)
@@ -290,12 +280,9 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
-     * Offset to unset
+     * Pager is readonly - disabling items modifying
      * @link http://php.net/manual/en/arrayaccess.offsetunset.php
-     * @param mixed $offset <p>
-     * The offset to unset.
-     * </p>
+     * @param mixed $offset
      * @return void
      */
     public function offsetUnset($offset)

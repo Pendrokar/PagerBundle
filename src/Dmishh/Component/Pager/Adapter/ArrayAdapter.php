@@ -1,6 +1,6 @@
 <?php
 
-namespace Dmishh\PagerBundle\Component\Pager\Adapter;
+namespace Dmishh\Component\Pager\Adapter;
 
 class ArrayAdapter implements AdapterInterface
 {
@@ -29,7 +29,7 @@ class ArrayAdapter implements AdapterInterface
      */
     function getResults($offset, $limit)
     {
-        return array_slice($this->array, $offset, $limit);
+        return array_slice($this->array, $offset, $limit, true);
     }
 
     /**

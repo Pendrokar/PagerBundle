@@ -1,6 +1,6 @@
 <?php
 
-namespace Dmishh\PagerBundle\Component\Pager\Adapter;
+namespace  Dmishh\Component\Pager\Adapter;
 
 interface AdapterInterface
 {

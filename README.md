@@ -1,10 +1,10 @@
-Pagination for Symfony2 with Doctrine2 support
+# Pagination for Symfony2 with Doctrine2 support
+Simple but powerful Pager class created without using DI.
 
-WORK IN PROGRESS...
+*WORK IN PROGRESS...*
+Docs coming at 3.02.2012. Stay tuned!
 
-todo:
-- mandatory $route in TwigExtension method render
-- remove unknown adapter
-- unit tests coverage
-- composer.json file
-- register composer package
+## TODO:
+# Improve unit tests coverage
+# Use default route from request
+# Predefined rendering logic in templates (some kind of decorators)
