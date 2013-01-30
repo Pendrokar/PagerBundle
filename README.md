@@ -6,4 +6,5 @@ Simple but powerful Pager class created without using DI.
 ## TODO:
 * Improve unit tests coverage
 * Use default route from request
+* Move template filename to configuration
 * Predefined rendering logic in templates (some kind of decorators)
