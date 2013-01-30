@@ -4,9 +4,9 @@
  * Date: 23.01.2013
  * Time: 16:44
  */
-namespace Journalist\PagerBundle\Component\Pager\Adapter;
+namespace Dmishh\PagerBundle\Component\Pager\Adapter;
 
-use Journalist\PagerBundle\Component\Pager\Exception\Exception;
+use Dmishh\PagerBundle\Component\Pager\Exception\Exception;
 
 class AdapterFactory
 {
@@ -17,8 +17,8 @@ class AdapterFactory
      *          - Doctrine's ArrayCollection
      *          - Doctrine's ORM QueryBuilder
      * @param array $options
-     * @throws \Journalist\PagerBundle\Component\Pager\Exception\Exception
-     * @return \Journalist\PagerBundle\Component\Pager\Adapter\AdapterInterface
+     * @throws \Dmishh\PagerBundle\Component\Pager\Exception\Exception
+     * @return \Dmishh\PagerBundle\Component\Pager\Adapter\AdapterInterface
      */
     public static function getAdapterFrom($dataSource, array $options = array())
     {

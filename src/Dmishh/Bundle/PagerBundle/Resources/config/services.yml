@@ -1,6 +1,6 @@
 services:
-    journalist_paginator.twig.extension.pagination:
-        class: Journalist\PagerBundle\Twig\Extension\PaginationExtension
+    pagination.twig.extension.pagination:
+        class: Dmishh\PagerBundle\Twig\Extension\PaginationExtension
         arguments:
             - @templating.helper.router
             - @translator

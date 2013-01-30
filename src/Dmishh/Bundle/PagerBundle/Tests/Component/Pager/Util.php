@@ -1,6 +1,6 @@
 <?php
 
-namespace Journalist\PagerBundle\Tests\Component\Pager;
+namespace Dmishh\PagerBundle\Tests\Component\Pager;
 
 
 class Util

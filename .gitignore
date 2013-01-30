@@ -1,10 +1,10 @@
 .DS_Store
 .idea
-/app/bootstrap.php.cache
+/app/bootstrap*
 /app/cache/*
 /app/logs/*
-/app/phpunit.xml
-/vendor/*
 /app/config/parameters.yml
+/vendor/*
+/web/bundles/
 composer.phar
 composer.lock

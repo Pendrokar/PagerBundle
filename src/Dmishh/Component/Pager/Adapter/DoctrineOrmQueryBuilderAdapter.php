@@ -1,8 +1,8 @@
 <?php
 
-namespace Journalist\PagerBundle\Component\Pager\Adapter;
+namespace Dmishh\PagerBundle\Component\Pager\Adapter;
 
-use Journalist\PagerBundle\Component\Pager\Adapter\AdapterInterface;
+use Dmishh\PagerBundle\Component\Pager\Adapter\AdapterInterface;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\QueryBuilder;
 

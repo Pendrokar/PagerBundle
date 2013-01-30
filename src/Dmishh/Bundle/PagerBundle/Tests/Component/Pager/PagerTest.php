@@ -1,8 +1,8 @@
 <?php
 
-namespace Journalist\PagerBundle\Tests\Component\Pager;
+namespace Dmishh\PagerBundle\Tests\Component\Pager;
 
-use Journalist\PagerBundle\Component\Pager\Pager;
+use Dmishh\PagerBundle\Component\Pager\Pager;
 
 
 class PagerTest extends \PHPUnit_Framework_TestCase

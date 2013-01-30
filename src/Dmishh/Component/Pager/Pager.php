@@ -1,9 +1,9 @@
 <?php
 
-namespace Journalist\PagerBundle\Component\Pager;
+namespace Dmishh\PagerBundle\Component\Pager;
 
-use Journalist\PagerBundle\Component\Pager\Adapter\AdapterFactory;
-use Journalist\PagerBundle\Component\Pager\Adapter\PagerAdapterInterface;
+use Dmishh\PagerBundle\Component\Pager\Adapter\AdapterFactory;
+use Dmishh\PagerBundle\Component\Pager\Adapter\PagerAdapterInterface;
 
 /**
  * Pager
@@ -11,7 +11,7 @@ use Journalist\PagerBundle\Component\Pager\Adapter\PagerAdapterInterface;
 class Pager implements \Countable, \ArrayAccess, \Iterator
 {
     /**
-     * @var \Journalist\PagerBundle\Component\Pager\Adapter\PagerAdapterInterface Adapter for extracting slice from data source
+     * @var \Dmishh\PagerBundle\Component\Pager\Adapter\PagerAdapterInterface Adapter for extracting slice from data source
      */
     private $adapter;
 

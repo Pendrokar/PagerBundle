@@ -1,6 +1,6 @@
 <?php
 
-namespace Journalist\PagerBundle\Component\Pager\Adapter;
+namespace Dmishh\PagerBundle\Component\Pager\Adapter;
 
 interface AdapterInterface
 {

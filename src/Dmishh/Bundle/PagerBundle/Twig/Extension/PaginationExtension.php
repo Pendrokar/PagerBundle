@@ -1,6 +1,6 @@
 <?php
 
-namespace Journalist\PagerBundle\Twig\Extension;
+namespace Dmishh\PagerBundle\Twig\Extension;
 
 use Symfony\Bundle\FrameworkBundle\Templating\Helper\RouterHelper;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -49,7 +49,7 @@ class PaginationExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function render($pager, $route, $pageParameterName = 'page', array $queryParams = array(), $template = 'JournalistPagerBundle:Pager:pagination.html.twig')
+    public function render($pager, $route, $pageParameterName = 'page', array $queryParams = array(), $template = 'DmishhPagerBundle:Pager:pagination.html.twig')
     {
         $data = array(
             'pager' => $pager,
@@ -75,6 +75,6 @@ class PaginationExtension extends \Twig_Extension
      */
     public function getName()
     {
-        return 'journalist_pagination';
+        return 'pagination';
     }
 }

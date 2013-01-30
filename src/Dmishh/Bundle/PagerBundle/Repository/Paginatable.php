@@ -4,9 +4,9 @@
  * Date: 24.01.2013
  * Time: 13:31
  */
-namespace Journalist\PagerBundle\Repository;
+namespace Dmishh\PagerBundle\Repository;
 
-use \Journalist\PagerBundle\Component\Pager\Pager;
+use \Dmishh\PagerBundle\Component\Pager\Pager;
 
 trait Paginatable
 {
@@ -14,7 +14,7 @@ trait Paginatable
      * @param array $orderBy
      * @param int $page
      * @param int $itemsPerPage
-     * @return \Journalist\PagerBundle\Component\Pager\Pager
+     * @return \Dmishh\PagerBundle\Component\Pager\Pager
      */
     public function paginate($page, $itemsPerPage, array $orderBy = null)
     {
@@ -26,7 +26,7 @@ trait Paginatable
      * @param array $orderBy
      * @param int $page
      * @param int $itemsPerPage
-     * @return \Journalist\PagerBundle\Component\Pager\Pager
+     * @return \Dmishh\PagerBundle\Component\Pager\Pager
      */
     public function paginateBy($page, $itemsPerPage, array $criteria, array $orderBy = null)
     {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Journalist\PagerBundle\Tests\Component\Pager\Adapter;
+namespace Dmishh\PagerBundle\Tests\Component\Pager\Adapter;
 
-use Journalist\PagerBundle\Component\Pager\Adapter\ArrayAdapter;
-use Journalist\PagerBundle\Tests\Component\Pager\Util;
+use Dmishh\PagerBundle\Component\Pager\Adapter\ArrayAdapter;
+use Dmishh\PagerBundle\Tests\Component\Pager\Util;
 
 class ArrayAdapterTest extends \PHPUnit_Framework_TestCase
 {

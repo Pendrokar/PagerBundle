@@ -1,25 +1,23 @@
 <?php
 
-namespace Journalist\PagerBundle\Component\Pager\Adapter;
+namespace Dmishh\PagerBundle\Component\Pager\Adapter;
 
-use Doctrine\Common\Collections\Collection;
-
-class DoctrineCollectionAdapter implements AdapterInterface
+class ArrayAdapter implements AdapterInterface
 {
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var array
      */
-    private $collection;
+    private $array;
 
     /**
      * Constructor for adapter
      *
-     * @param ArrayCollection $dataSource
+     * @param array $dataSource
      * @param array $options
      */
     function __construct($dataSource, array $options = array())
     {
-        $this->collection = $dataSource;
+        $this->array = $dataSource;
     }
 
     /**
@@ -31,7 +29,7 @@ class DoctrineCollectionAdapter implements AdapterInterface
      */
     function getResults($offset, $limit)
     {
-        return $this->collection->slice($offset, $limit);
+        return array_slice($this->array, $offset, $limit);
     }
 
     /**
@@ -41,6 +39,6 @@ class DoctrineCollectionAdapter implements AdapterInterface
      */
     function getNbResults()
     {
-        return $this->collection->count();
+        return count($this->array);
     }
 }
