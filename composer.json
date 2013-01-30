@@ -1,5 +1,6 @@
 {
     "name": "dmishh/pagerbundle",
+    "description": "Pagination for Symfony2 with Doctrine2 support. WORK IN PROGRESS...",
     "autoload": {
         "psr-0": { "": "src/" }
     },
