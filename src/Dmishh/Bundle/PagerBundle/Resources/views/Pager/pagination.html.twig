@@ -1,0 +1,11 @@
+{% if pager.hasToPaginate %}
+    <div class="pagination">
+        <ul>
+            {% for page in 1..pager.pageCount %}
+                <li class="{% if page == pager.currentPage %}active{% endif %}">
+                    <a href="{{ pagination_url(route, page, pageParameterName, app.request.attributes.get('_route_params')|merge(app.request.query.all|merge(queryParams))) }}">{{ page }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}

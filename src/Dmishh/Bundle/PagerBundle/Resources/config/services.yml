@@ -1,0 +1,8 @@
+services:
+    journalist_paginator.twig.extension.pagination:
+        class: Journalist\PagerBundle\Twig\Extension\PaginationExtension
+        arguments:
+            - @templating.helper.router
+            - @translator
+        tags:
+            - { name: twig.extension }
