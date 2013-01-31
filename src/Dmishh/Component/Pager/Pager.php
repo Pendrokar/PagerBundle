@@ -192,7 +192,7 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
             $this->reloadItems = false;
         }
     }
-    
+
     /**
      * Total elements count
      * @link http://php.net/manual/en/countable.count.php
