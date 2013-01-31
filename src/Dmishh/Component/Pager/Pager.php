@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of the DmishhPagerBundle package.
+ *
+ * (c) 2013 Dmitriy Scherbina
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Dmishh\Component\Pager;
 
 use Dmishh\Component\Pager\Adapter\AdapterFactory;
@@ -11,66 +20,69 @@ use Dmishh\Component\Pager\Adapter\PagerAdapterInterface;
 class Pager implements \Countable, \ArrayAccess, \Iterator
 {
     /**
-     * @var \Dmishh\PagerBundle\Component\Pager\Adapter\PagerAdapterInterface Adapter for extracting slice from data source
+     * @var \Dmishh\Component\Pager\Adapter\AdapterInterface Adapter for extracting slice from data source
      */
-    private $adapter;
+    protected $adapter;
 
     /**
      * @var int Current page
      */
-    private $currentPage;
+    protected $page;
 
     /**
      * @var int Items per page
      */
-    private $itemsPerPage;
+    protected $itemsPerPage;
 
     /**
      * @var int Total items count
      */
-    private $itemsCount;
+    protected $itemsCount;
 
     /**
      * @var array Items on current page
      */
-    private $items;
+    protected $items;
 
     /**
      * @var array Keys for items array. Used for preserving keys of items array
      */
-    private $itemsKeys;
+    protected $itemsKeys;
 
     /**
      * @var int Cursor for iterating over items
      */
-    private $cursor = 0;
+    protected $cursor = 0;
+
+    /**
+     * @var bool
+     */
+    protected $reloadItems = true;
 
     /**
      * Constructor
      *
-     * @param int $currentPage
-     * @param int $itemsPerPage
      * @param mixed $dataSource Data source for pagination
-     * @param array $options Options for adapter
+     * @param int $page
+     * @param int $itemsPerPage
+     * @param array $adapterOptions Options for adapter
      */
-    public function __construct($currentPage = 1, $itemsPerPage = 10, $dataSource = null, array $options = array())
+    public function __construct($dataSource, $page = 1, $itemsPerPage = 10, array $adapterOptions = array())
     {
-        if ($dataSource) {
-            $this->adapter = AdapterFactory::getAdapterFrom($dataSource);
-        }
-
-        $this->setCurrentPage($currentPage);
+        $this->adapter = AdapterFactory::getAdapterFrom($dataSource, $adapterOptions);
+        $this->setPage($page);
         $this->setItemsPerPage($itemsPerPage);
     }
 
-    public function setCurrentPage($page)
+    public function setPage($page)
     {
-        $this->currentPage = $page < 1 ? 1 : $page;
+        $this->page = $page < 1 ? 1 : $page;
+        $this->reloadItems = true;
     }
 
-    public function getCurrentPage()
+    public function getPage()
     {
-        return $this->currentPage;
+        return $this->page;
     }
 
     public function getPageCount()
@@ -88,40 +100,33 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
     }
 
     /**
-     * 1 - is always valid page
+     * Checks that current page is out of page range
      *
-     * @return bool
+     * @return bool true if page is greater than the biggest page, false — otherwise
      */
     public function isPageOutOfRange()
     {
-        return $this->currentPage != 1 && ($this->currentPage < 1 || $this->currentPage > $this->getPageCount());
+        return $this->page != 1 && ($this->page < 1 || $this->page > $this->getPageCount());
     }
 
-    public function isFirstPage($page)
+    /**
+     * @param $page
+     * @return bool
+     */
+    public function isFirstPage()
     {
-        return $page == 1;
+        return $this->page == 1;
     }
 
-    public function isLastPage($page)
+    public function isLastPage()
     {
-        return $page == $this->getPageCount();
-    }
-
-    public function setItemsCount($itemsCount)
-    {
-        $this->itemsCount = $itemsCount;
+        return $this->page == $this->getPageCount();
     }
 
     public function getItemsCount()
     {
         if (!isset($this->itemsCount)) {
-            if ($this->adapter) {
-                $this->itemsCount = $this->adapter->getNbResults();
-            } elseif (isset($this->items)) {
-                return count($this->items);
-            } else {
-                return 0;
-            }
+            $this->itemsCount = $this->adapter->getNbResults();
         }
 
         return $this->itemsCount;
@@ -130,6 +135,7 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
     public function setItemsPerPage($itemsPerPage)
     {
         $this->itemsPerPage = $itemsPerPage < 1 ? 1 : $itemsPerPage;
+        $this->reloadItems = true;
     }
 
     public function getItemsPerPage()
@@ -137,28 +143,24 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
         return $this->itemsPerPage;
     }
 
+    /**
+     * To be used in SQL queries
+     *
+     * @return int Offset for SQL query
+     */
     public function getOffset()
     {
-        return $this->getLimit() * ($this->currentPage - 1);
+        return $this->getLimit() * ($this->page - 1);
     }
 
     /**
-     * Alias for getItemsPerPage()
+     * To be used in SQL queries
      *
-     * @return int Limit
+     * @return int Limit for SQL query
      */
     public function getLimit()
     {
         return $this->getItemsPerPage();
-    }
-
-    /**
-     * @param array $items
-     */
-    public function setItems(array $items)
-    {
-        $this->items = array_values($items);
-        $this->itemsKeys = array_keys($items);
     }
 
     /**
@@ -169,18 +171,28 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
     public function getItems()
     {
         $this->loadItems();
+
         return isset($this->items) ? $this->items : array();
     }
 
-    private function loadItems()
+
+    public function reloadItems()
     {
-        if (!isset($this->items)) {
-            if ($this->adapter) {
-                $this->setItems($this->adapter->getResults($this->getOffset(), $this->getLimit()));
-            }
-        }
+        $this->itemsCount = $this->adapter->getNbResults();
+
+        $items = $this->adapter->getResults($this->getOffset(), $this->getLimit());
+        $this->items = array_values($items);
+        $this->itemsKeys = array_keys($items);
     }
 
+    protected function loadItems()
+    {
+        if (!isset($this->items) || $this->reloadItems) {
+            $this->reloadItems();
+            $this->reloadItems = false;
+        }
+    }
+    
     /**
      * Total elements count
      * @link http://php.net/manual/en/countable.count.php
@@ -199,6 +211,7 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
     public function current()
     {
         $this->loadItems();
+
         return $this->items[$this->itemsKeys[$this->cursor]];
     }
 
@@ -220,6 +233,7 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
     public function key()
     {
         $this->loadItems();
+
         return $this->itemsKeys[$this->cursor];
     }
 
@@ -231,6 +245,7 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
     public function valid()
     {
         $this->loadItems();
+
         return isset($this->items[$this->itemsKeys[$this->cursor]]);
     }
 
@@ -253,6 +268,7 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
     public function offsetExists($offset)
     {
         $this->loadItems();
+
         return in_array($offset, $this->itemsKeys);
     }
 
@@ -265,6 +281,7 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
     public function offsetGet($offset)
     {
         $this->loadItems();
+
         return $this->items[array_search($offset, $this->itemsKeys)];
     }
 

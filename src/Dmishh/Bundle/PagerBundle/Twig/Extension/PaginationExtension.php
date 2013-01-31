@@ -1,9 +1,17 @@
 <?php
 
-namespace Dmishh\PagerBundle\Twig\Extension;
+/**
+ * This file is part of the DmishhPagerBundle package.
+ *
+ * (c) 2013 Dmitriy Scherbina
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Dmishh\Bundle\PagerBundle\Twig\Extension;
 
 use Symfony\Bundle\FrameworkBundle\Templating\Helper\RouterHelper;
-use Symfony\Component\Translation\TranslatorInterface;
 
 class PaginationExtension extends \Twig_Extension
 {
@@ -12,10 +20,9 @@ class PaginationExtension extends \Twig_Extension
      */
     protected $environment;
 
-    public function __construct(RouterHelper $routerHelper, TranslatorInterface $translator)
+    public function __construct(RouterHelper $routerHelper)
     {
         $this->routerHelper = $routerHelper;
-        $this->translator = $translator;
     }
 
     /**
@@ -34,7 +41,6 @@ class PaginationExtension extends \Twig_Extension
         return array(
             'pagination' => new \Twig_Function_Method($this, 'render', array('is_safe' => array('html'))),
             'pagination_url' => new \Twig_Function_Method($this, 'generateUrl', array('is_safe' => array('html'))),
-//            'knp_pagination_sortable' => new \Twig_Function_Method($this, 'sortable', array('is_safe' => array('html'))),
         );
     }
 
@@ -69,9 +75,7 @@ class PaginationExtension extends \Twig_Extension
     }
 
     /**
-     * Get name
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function getName()
     {

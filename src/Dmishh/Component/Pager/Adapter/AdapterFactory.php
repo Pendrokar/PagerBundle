@@ -1,12 +1,17 @@
 <?php
+
 /**
- * User: dmishh
- * Date: 23.01.2013
- * Time: 16:44
+ * This file is part of the DmishhPagerBundle package.
+ *
+ * (c) 2013 Dmitriy Scherbina
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
+
 namespace Dmishh\Component\Pager\Adapter;
 
-use Dmishh\Component\Pager\Pager\Exception\Exception;
+use Dmishh\Component\Pager\Exception\Exception;
 
 class AdapterFactory
 {
@@ -17,7 +22,7 @@ class AdapterFactory
      *          - Doctrine's ArrayCollection
      *          - Doctrine's ORM QueryBuilder
      * @param array $options
-     * @throws \Dmishh\PagerBundle\Component\Pager\Exception\Exception
+     * @throws \Dmishh\Component\Pager\Exception\Exception
      * @return \Dmishh\PagerBundle\Component\Pager\Adapter\AdapterInterface
      */
     public static function getAdapterFrom($dataSource, array $options = array())

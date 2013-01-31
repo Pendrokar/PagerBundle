@@ -1,20 +1,25 @@
 <?php
+
 /**
- * User: dmishh
- * Date: 24.01.2013
- * Time: 13:31
+ * This file is part of the DmishhPagerBundle package.
+ *
+ * (c) 2013 Dmitriy Scherbina
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
-namespace Dmishh\PagerBundle\Repository;
 
-use \Dmishh\PagerBundle\Component\Pager\Pager;
+namespace Dmishh\Bundle\PagerBundle\Repository;
 
-trait Paginatable
+use Dmishh\Component\Pager\Pager;
+
+trait PaginateTrait
 {
     /**
      * @param array $orderBy
      * @param int $page
      * @param int $itemsPerPage
-     * @return \Dmishh\PagerBundle\Component\Pager\Pager
+     * @return \Dmishh\Component\Pager\Pager
      */
     public function paginate($page, $itemsPerPage, array $orderBy = null)
     {
@@ -26,7 +31,7 @@ trait Paginatable
      * @param array $orderBy
      * @param int $page
      * @param int $itemsPerPage
-     * @return \Dmishh\PagerBundle\Component\Pager\Pager
+     * @return \Dmishh\Component\Pager\Pager
      */
     public function paginateBy($page, $itemsPerPage, array $criteria, array $orderBy = null)
     {
