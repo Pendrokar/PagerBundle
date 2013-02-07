@@ -1,21 +1,21 @@
 {
     "name": "dmishh/pagerbundle",
-    "description": "Pagination for Symfony2 with Doctrine2 support. WORK IN PROGRESS...",
+    "description": "Pagination for Symfony2 with Doctrine2 support. Simple. Powerful. Without DI.",
+    "license": "MIT",
     "autoload": {
         "psr-0": { "": "src/" }
     },
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": "2.1.*",
-        "doctrine/orm": "2.2.*",
-        "doctrine/doctrine-bundle": "1.1.*@dev",
+        "symfony/symfony": ">=2.1.*",
+        "doctrine/orm": ">=2.2.*",
+        "doctrine/doctrine-bundle": ">=1.1.*@dev",
         "twig/extensions": "dev-master",
-        "sensio/distribution-bundle": "2.1.*"
+        "sensio/distribution-bundle": ">=2.1.*"
     },
     "require-dev": {
         "php": ">=5.4"
     },
-
     "minimum-stability": "dev",
     "scripts": {
         "post-install-cmd": [
@@ -26,9 +26,6 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache"
         ]
-    },
-    "config": {
-        "bin-dir": "bin"
     },
     "extra": {
         "symfony-app-dir": "app",
