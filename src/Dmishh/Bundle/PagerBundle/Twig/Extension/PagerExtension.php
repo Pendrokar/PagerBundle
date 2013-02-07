@@ -13,7 +13,7 @@ namespace Dmishh\Bundle\PagerBundle\Twig\Extension;
 
 use Symfony\Bundle\FrameworkBundle\Templating\Helper\RouterHelper;
 
-class PaginationExtension extends \Twig_Extension
+class PagerExtension extends \Twig_Extension
 {
     /**
      * @var \Twig_Environment
@@ -39,7 +39,7 @@ class PaginationExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'pagination' => new \Twig_Function_Method($this, 'render', array('is_safe' => array('html'))),
+            'pager' => new \Twig_Function_Method($this, 'render', array('is_safe' => array('html'))),
             'pagination_url' => new \Twig_Function_Method($this, 'generateUrl', array('is_safe' => array('html'))),
         );
     }
