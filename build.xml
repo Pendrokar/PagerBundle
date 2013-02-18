@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="web" basedir="." default="build">
+    <description>
+        DmishhPageBundle
+    </description>
+
+    <property name="env" value="dev" />
+
+    <target name="run-tests">
+        <exec executable="phpunit">
+            <arg line="-c app --coverage-text"/>
+        </exec>
+    </target>
+</project>
