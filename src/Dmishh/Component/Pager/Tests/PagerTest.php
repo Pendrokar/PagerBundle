@@ -60,9 +60,11 @@ class PagerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(isset($pager['index0']));
         $this->assertEquals($items['index0'], $pager['index0']);
 
+        // Pager has readonly access — assigning ignored
         $pager['index0'] = '123123';
         $this->assertEquals($items['index0'], $pager['index0']);
 
+        // Pager has readonly access — unsetting ignored
         unset($pager[0]);
         $this->assertTrue(isset($pager['index0']));
         $this->assertEquals($items['index0'], $pager['index0']);
@@ -75,12 +77,8 @@ class PagerTest extends \PHPUnit_Framework_TestCase
 
         $pager = new Pager($items, 2, 5);
 
-        $pager->rewind();
-
-        while ($pager->valid()) {
-            $key = $pager->key();
-            $this->assertEquals($items[$key], $pager->current());
-            $pager->next();
+        foreach ($pager as $key => $item) {
+            $this->assertEquals($items[$key], $item);
         }
     }
 

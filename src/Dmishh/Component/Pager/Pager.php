@@ -74,26 +74,46 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
         $this->setItemsPerPage($itemsPerPage);
     }
 
+    /**
+     * Sets page
+     *
+     * @param int $page
+     */
     public function setPage($page)
     {
         $this->page = $page < 1 ? 1 : $page;
         $this->reloadItems = true;
     }
 
+    /**
+     * Gets page
+     *
+     * @return int
+     */
     public function getPage()
     {
         return $this->page;
     }
 
+    /**
+     * Return page count
+     *
+     * @return int
+     */
     public function getPageCount()
     {
         if ($this->getItemsCount() > 0) {
-            return floor(($this->getItemsCount() - 1) / $this->getItemsPerPage()) + 1;
+            return intval(floor(($this->getItemsCount() - 1) / $this->getItemsPerPage()) + 1);
         }
 
         return 0;
     }
 
+    /**
+     * Check if there is enought items for at least two pages
+     *
+     * @return bool
+     */
     public function hasToPaginate()
     {
         return $this->getPageCount() > 1;
@@ -110,7 +130,6 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
     }
 
     /**
-     * @param $page
      * @return bool
      */
     public function isFirstPage()
@@ -118,11 +137,17 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
         return $this->page == 1;
     }
 
+    /**
+     * @return bool
+     */
     public function isLastPage()
     {
         return $this->page == $this->getPageCount();
     }
 
+    /**
+     * @return int
+     */
     public function getItemsCount()
     {
         if (!isset($this->itemsCount)) {
@@ -132,12 +157,22 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
         return $this->itemsCount;
     }
 
+    /**
+     * Sets itemsPerPage
+     *
+     * @param int $itemsPerPage
+     */
     public function setItemsPerPage($itemsPerPage)
     {
         $this->itemsPerPage = $itemsPerPage < 1 ? 1 : $itemsPerPage;
         $this->reloadItems = true;
     }
 
+    /**
+     * Gets itemsPerPage
+     *
+     * @return int
+     */
     public function getItemsPerPage()
     {
         return $this->itemsPerPage;
@@ -175,7 +210,9 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
         return isset($this->items) ? $this->items : array();
     }
 
-
+    /**
+     * Reload items from adapter
+     */
     public function reloadItems()
     {
         $this->itemsCount = $this->adapter->getNbResults();
@@ -185,6 +222,9 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
         $this->itemsKeys = array_keys($items);
     }
 
+    /**
+     * Load items from adapter if they were not loaded
+     */
     protected function loadItems()
     {
         if (!isset($this->items) || $this->reloadItems) {
@@ -212,7 +252,7 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
     {
         $this->loadItems();
 
-        return $this->items[$this->itemsKeys[$this->cursor]];
+        return $this->items[$this->cursor];
     }
 
     /**
@@ -246,7 +286,7 @@ class Pager implements \Countable, \ArrayAccess, \Iterator
     {
         $this->loadItems();
 
-        return isset($this->items[$this->itemsKeys[$this->cursor]]);
+        return isset($this->items[$this->cursor]);
     }
 
     /**
