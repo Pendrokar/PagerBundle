@@ -10,11 +10,11 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": ">=2.1.0",
-        "doctrine/orm": ">=2.2.0",
-        "doctrine/doctrine-bundle": ">=1.1.0@dev",
-        "twig/extensions": "dev-master",
-        "sensio/distribution-bundle": ">=2.1.0"
+        "symfony/symfony": ">=2.1.0,<2.3",
+        "doctrine/orm": ">=2.2.0,<2.3",
+        "doctrine/doctrine-bundle": ">=1.1",
+        "twig/extensions": ">=1.0",
+        "sensio/distribution-bundle": ">=2.1.0,<2.3"
     },
     "require-dev": {
         "php": ">=5.4"

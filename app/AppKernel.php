@@ -12,7 +12,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
-            new Dmishh\Bundle\PagerBundle\PagerBundle(),
+            new Dmishh\Bundle\PagerBundle\DmishhPagerBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
