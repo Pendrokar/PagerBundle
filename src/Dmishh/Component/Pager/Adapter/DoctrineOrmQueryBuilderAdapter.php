@@ -44,9 +44,10 @@ class DoctrineOrmQueryBuilderAdapter implements AdapterInterface
     public function getNbResults()
     {
         $qb = clone $this->queryBuilder;
+        $aliases = $this->queryBuilder->getRootAliases();
 
         return $qb
-            ->select('COUNT(' . $this->queryBuilder->getRootAliases()[0] . ')')
+            ->select('COUNT(' . $aliases[0] . ')')
             ->resetDQLPart('orderBy')
             ->setMaxResults(null)
             ->setFirstResult(null)
