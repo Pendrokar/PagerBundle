@@ -1,6 +1,6 @@
 services:
     pagination.twig.extension.pagination:
-        class: Dmishh\Bundle\PagerBundle\Twig\Extension\PaginationExtension
+        class: Dmishh\Bundle\PagerBundle\Twig\Extension\PagerExtension
         arguments:
             - @templating.helper.router
         tags:
